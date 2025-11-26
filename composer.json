@@ -11,5 +11,8 @@
         "psr-4": {
         "Tests\\": "tests/"
         }
+    },
+    "require": {
+        "nikic/fast-route": "^1.3"
     }
 }

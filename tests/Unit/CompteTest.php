@@ -1,0 +1,40 @@
+<?php
+
+namespace tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+use App\Compte;
+use App\Exception\InvalidArgumentException;
+
+class CompteTest extends TestCase
+{
+    public function testSoldeNewAccount(): void
+    {
+        $compte = new Compte();
+        $this->assertEquals(0, $compte->getSolde());
+    }
+
+    public function testDepot(): void
+    {
+        $compte = new Compte();
+        $compte->depot(100);
+        $this->assertEquals(100, $compte->getSolde());
+    }
+
+    public function testRetrait(): void
+    {
+        $compte = new Compte();
+        $compte->depot(200);
+        $compte->retrait(50);
+        $this->assertEquals(150, $compte->getSolde());
+    }
+
+    public function testRetraitInsuffisant(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $compte = new Compte();
+        $compte->depot(100);
+        $compte->retrait(150);
+    }
+
+}
