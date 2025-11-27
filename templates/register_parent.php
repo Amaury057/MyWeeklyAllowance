@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head><title>Inscription Parent</title></head>
+<head><title>Inscription Parent</title>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+>
+</head>
 <body style="font-family:sans-serif; padding:20px;">
     <a href="/">Retour accueil</a>
     <h2>Inscription Parent</h2>

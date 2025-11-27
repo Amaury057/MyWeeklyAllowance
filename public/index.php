@@ -19,34 +19,8 @@ try {
   );
   $pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS']);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-  $pdo->exec("
-    CREATE TABLE IF NOT EXISTS comptes (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        solde INT NOT NULL DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )");
-  $pdo->exec("
-    CREATE TABLE IF NOT EXISTS parents (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255) NOT NULL,
-        email VARCHAR(255) UNIQUE,
-        password VARCHAR(255), 
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )");
-  $pdo->exec("
-    CREATE TABLE IF NOT EXISTS ados (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        nom VARCHAR(255) NOT NULL,
-        argent_hebdo INT DEFAULT 0,
-        compte_id INT NULL,
-        FOREIGN KEY (compte_id) REFERENCES comptes(id) ON DELETE CASCADE,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )");
-
-  $pdo->exec("ALTER TABLE ados MODIFY COLUMN compte_id INT NULL");
 } catch (PDOException $e) {
-  die("Erreur de connexion ou d'initialisation BDD : " . $e->getMessage());
+  die("Erreur de connexion BDD : " . $e->getMessage());
 }
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {

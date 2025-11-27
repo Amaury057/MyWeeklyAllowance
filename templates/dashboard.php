@@ -3,7 +3,11 @@
 
 <head>
     <title>Tableau de bord</title>
-    <style>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+    <!-- <style>
         table {
             width: 100%;
             border-collapse: collapse;
@@ -19,7 +23,7 @@
         th {
             background-color: #f2f2f2;
         }
-    </style>
+    </style> -->
 </head>
 
 <body style="font-family:sans-serif; padding:20px;">
@@ -43,9 +47,9 @@
                         <?php if ($ado['compte_id']): ?>
                             <strong><?= htmlspecialchars($ado['argent_hebdo'] ?? 0) ?> €</strong>
 
-                            <form method="POST" action="/update-hebdo" style="display:inline-flex; align-items:center; margin-left:15px; gap:5px;">
+                            <form method="POST" action="/update-hebdo">
                                 <input type="hidden" name="ado_id" value="<?= $ado['id'] ?>">
-                                <input type="number" name="new_hebdo" min="0" value="<?= htmlspecialchars($ado['argent_hebdo'] ?? 0) ?>" style="width:70px;" required>
+                                <input type="number" name="new_hebdo" min="0" value="<?= htmlspecialchars($ado['argent_hebdo'] ?? 0) ?>" required>
                                 <button type="submit">Mettre à jour</button>
                             </form>
                         <?php else: ?>
@@ -56,9 +60,9 @@
                         <?php if ($ado['compte_id']): ?>
                             <strong style="color:green;">Solde : <?= htmlspecialchars($ado['solde']) ?> €</strong>
 
-                            <form method="POST" action="/depot" style="display:inline-flex; align-items:center; margin-left:15px; gap:5px;">
+                            <form method="POST" action="/depot">
                                 <input type="hidden" name="compte_id" value="<?= $ado['compte_id'] ?>">
-                                <input type="number" name="montant" min="1" placeholder="Montant" style="width:70px;" required>
+                                <input type="number" name="montant" min="1" placeholder="Montant" required>
                                 <button type="submit">Déposer</button>
                             </form>
                         <?php else: ?>

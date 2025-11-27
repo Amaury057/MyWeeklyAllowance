@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head><title>Accueil</title></head>
+<head><title>Accueil</title>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+>
+</head>
 <body style="text-align:center; font-family:sans-serif; padding-top:50px;">
     <h1>Bienvenue sur MyWeeklyAllowance</h1>
     <p>Qui êtes-vous ?</p>
