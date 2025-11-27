@@ -1,5 +1,11 @@
 FROM php:8.3-apache
 
+# Copier la configuration vhost qui remplace celle par défaut
+COPY vhost.conf /etc/apache2/sites-available/000-default.conf
+
+# Activer le module de réécriture d'URL d'Apache
+RUN a2enmod rewrite
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libzip-dev \

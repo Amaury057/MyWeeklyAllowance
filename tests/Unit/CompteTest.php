@@ -3,7 +3,7 @@
 namespace tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\Compte;
+use App\Entity\Compte;
 use App\Exception\InvalidArgumentException;
 
 class CompteTest extends TestCase
@@ -37,4 +37,32 @@ class CompteTest extends TestCase
         $compte->retrait(150);
     }
 
-}
+    public function testDepotNegatif(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $compte = new Compte();
+        $compte->depot(-50);
+    }   
+
+    public function testRetraitNegatif(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $compte = new Compte();
+        $compte->depot(100);
+        $compte->retrait(-30);
+    }
+
+    public function testSetAndGetId(): void
+    {
+        $compte = new Compte();
+        $compte->setId(5);
+        $this->assertEquals(5, $compte->getId());
+    }
+
+    public function testSetAndGetSolde(): void
+    {
+        $compte = new Compte();
+        $compte->setSolde(250);
+        $this->assertEquals(250, $compte->getSolde());
+    }
+}   

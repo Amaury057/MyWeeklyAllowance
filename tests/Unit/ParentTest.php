@@ -3,57 +3,70 @@
 namespace tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\ParentUser;
-use App\Compte;
-use App\Ado;
+use App\Entity\ParentUser;
+use App\Entity\Compte;
+use App\Entity\Ado;
 
 class ParentTest extends TestCase
 {
     public function testParentArgentHebdo(): void
     {
-        $compte = new Compte();
-        $ado = new Ado("Thomas", $compte, 20);
         $parent = new ParentUser();
-        $parent->VerserHebdo($ado);
-        $this->assertEquals(20, $compte->getSolde());
+        $ado = new Ado();
+        $ado->setArgentHebdo(20); // ARRANGE: Définir l'argent hebdo
+        $ado->setCompte(new Compte()); // ARRANGE: Donner un compte à l'ado
+
+        $parent->verserHebdo($ado); // ACT
+        $this->assertEquals(20, $ado->getCompte()->getSolde()); // ASSERT
     }
 
-    public function testParentCreateCompteForAdo(): void
+    public function testCreateCompteForAdo(): void
     {
         $parent = new ParentUser();
-        $compte = $parent->createCompteForAdo();
-        $this->assertInstanceOf(Compte::class, $compte);
-        $this->assertEquals(0, $compte->getSolde());
+        $this->assertInstanceOf(Compte::class, $parent->createCompteForAdo());
     }
 
     public function testParentDepot(): void
     {
-        $compte = new Compte();
-        $ado = new Ado("Thomas", $compte); 
         $parent = new ParentUser();
-        
-        $parent->depot($ado, 50);
+        $ado = new Ado();
+        $ado->setCompte(new Compte()); // ARRANGE: Donner un compte à l'ado
+        $ado->getCompte()->setSolde(10);
 
-        $this->assertEquals(50, $compte->getSolde());
+        $parent->depot($ado, 50); // ACT
+        $this->assertEquals(60, $ado->getCompte()->getSolde()); // ASSERT
     }
 
     public function testParentPeutEnregistrerUneDepense(): void
     {
-        
-        $compte = new Compte();
-        $ado = new Ado("Thomas", $compte); 
         $parent = new ParentUser();
-        $compte->depot(50); 
+        $ado = new Ado();
+        $ado->setCompte(new Compte()); // ARRANGE: Donner un compte à l'ado
+        $ado->getCompte()->setSolde(100);
 
-        $parent->enregistrerDepense($ado, 15);
-
-        $this->assertEquals(35, $compte->getSolde());
+        $parent->enregistrerDepense($ado, 20); // ACT
+        $this->assertEquals(80, $ado->getCompte()->getSolde()); // ASSERT
     }
 
+    public function testParentEnregistrerDepenseInsuffisante(): void
+    {
+        $this->expectException(\InvalidArgumentException::class); // ASSERT: on attend une exception
+        $parent = new ParentUser();
+        $ado = new Ado();
+        $ado->setCompte(new Compte()); // ARRANGE
+        $ado->getCompte()->setSolde(10);
 
+        $parent->enregistrerDepense($ado, 20); // ACT
+    }
 
+    public function testParentEnregistrerDepenseNegative(): void
+    {
+        $this->expectException(\InvalidArgumentException::class); // ASSERT
+        $parent = new ParentUser();
+        $ado = new Ado();
+        $ado->setCompte(new Compte()); // ARRANGE
+        $ado->getCompte()->setSolde(100);
+
+        $parent->enregistrerDepense($ado, -20); // ACT
+    }
 }
-
-
-
-?>
